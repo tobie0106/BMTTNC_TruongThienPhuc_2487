@@ -1,28 +1,30 @@
-from cipher.caesar import ALPHABET
+from . import ALPHABET
 
 class CaesarCipher:
     def __init__(self):
         self.alphabet = ALPHABET
 
-    def encrypt_text(self, text: str, key: int) -> str:
+    def _shift_char(self, letter: str, key: int, encrypt: bool = True) -> str:
+        if not letter.isalpha():
+            return letter
+
+        letter = letter.upper()
         alphabet_len = len(self.alphabet)
-        text = text.upper()
-        encrypted_text = []
-        for letter in text:
-            letter_index = self.alphabet.index(letter)
+        letter_index = self.alphabet.index(letter)
+
+        if encrypt:
             output_index = (letter_index + key) % alphabet_len
-            output_letter = self.alphabet[output_index]
-            encrypted_text.append(output_letter)
-        return "".join(encrypted_text)
+        else:
+            output_index = (letter_index - key) % alphabet_len
+
+        return self.alphabet[output_index]
+
+
+    def encrypt_text(self, text: str, key: int) -> str:
+        key = key % len(self.alphabet)
+        return "".join(self._shift_char(letter, key, encrypt=True) for letter in text)
 
 
     def decrypt_text(self, text: str, key: int) -> str:
-        alphabet_len = len(self.alphabet)
-        text = text.upper()
-        decrypted_text = []
-        for letter in text:
-            letter_index = self.alphabet.index(letter)
-            output_index = (letter_index - key) % alphabet_len
-            output_letter = self.alphabet[output_index]
-            decrypted_text.append(output_letter)
-        return "".join(decrypted_text)
+        key = key % len(self.alphabet)
+        return "".join(self._shift_char(letter, key, encrypt=False) for letter in text)
