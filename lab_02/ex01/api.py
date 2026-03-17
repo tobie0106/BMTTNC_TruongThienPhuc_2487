@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from cipher.caesar import CaesarCipher
-# from cipher.playfair import PlayFairCipher
-# from cipher.transposition import TranspositionCipher
+from cipher.playfair import PlayFairCipher
+from cipher.transposition import TranspositionCipher
 from cipher.railfence import RailFenceCipher
 app = Flask(__name__)
 
@@ -10,8 +10,8 @@ app = Flask(__name__)
 # ==============================
 
 caesar_cipher = CaesarCipher()
-# playfair_cipher = PlayFairCipher()
-# transposition_cipher = TranspositionCipher()
+playfair_cipher = PlayFairCipher()
+transposition_cipher = TranspositionCipher()
 railfence_cipher = RailFenceCipher()
 
 # ==============================
