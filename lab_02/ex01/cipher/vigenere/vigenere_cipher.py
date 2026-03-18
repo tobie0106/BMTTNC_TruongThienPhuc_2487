@@ -31,3 +31,10 @@ class VigenereCipher:
             else:
                 decrypted_text += char
         return decrypted_text
+
+    # Thêm 2 hàm này để tương thích với code Flask:
+    def encrypt(self, plain_text, key):
+        return self.vigenere_encrypt(plain_text, key)
+    
+    def decrypt(self, encrypted_text, key):
+        return self.vigenere_decrypt(encrypted_text, key)

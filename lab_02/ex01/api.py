@@ -3,6 +3,7 @@ from cipher.caesar import CaesarCipher
 from cipher.playfair import PlayFairCipher
 from cipher.transposition import TranspositionCipher
 from cipher.railfence import RailFenceCipher
+from cipher.vigenere import VigenereCipher
 app = Flask(__name__)
 
 # ==============================
@@ -13,7 +14,7 @@ caesar_cipher = CaesarCipher()
 playfair_cipher = PlayFairCipher()
 transposition_cipher = TranspositionCipher()
 railfence_cipher = RailFenceCipher()
-
+vigenere_cipher = VigenereCipher()
 # ==============================
 # CAESAR API
 # ==============================
@@ -45,6 +46,36 @@ def caesar_decrypt():
         "decrypted_message": decrypted_text
     })
 
+# ==============================
+# VIGENERE API
+# ==============================
+
+@app.route('/api/vigenere/encrypt', methods=['POST'])
+def vigenere_encrypt():
+    data = request.get_json()
+
+    plain_text = data.get("plain_text")
+    key = data.get("key")
+
+    encrypted_text = vigenere_cipher.encrypt(plain_text, key)
+
+    return jsonify({
+        "encrypted_text": encrypted_text
+    })
+
+
+@app.route('/api/vigenere/decrypt', methods=['POST'])
+def vigenere_decrypt():
+    data = request.get_json()
+
+    cipher_text = data.get("cipher_text")
+    key = data.get("key")
+
+    decrypted_text = vigenere_cipher.decrypt(cipher_text, key)
+
+    return jsonify({
+        "decrypted_text": decrypted_text
+    })
 
 # ==============================
 # PLAYFAIR API
